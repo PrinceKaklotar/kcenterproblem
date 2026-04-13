@@ -56,3 +56,52 @@ export const findFarthestPoint = (points: PointContext[], centers: PointContext[
 
   return farthestPoint
 }
+
+// Calculate nCk (combinations)
+export const calculateCombinations = (n: number, k: number): number => {
+  if (k < 0 || k > n) return 0;
+  if (k === 0 || k === n) return 1;
+  k = Math.min(k, n - k); // Symmetry: nCk = nC(n-k)
+  let c = 1;
+  for (let i = 1; i <= k; i++) {
+    c = c * (n - i + 1) / i;
+  }
+  return c;
+}
+
+// Compute the absolute Optimal K-Centers by brute-force evaluation of all nCk subsets.
+// Warning: ensure nCk <= 100000 before calling this in UI to avoid blocking the main thread.
+export const findOptimalCenters = (points: PointContext[], k: number) => {
+  if (k <= 0) return { optimalCenters: [], optimalRadius: 0 };
+  if (k >= points.length) return { optimalCenters: points, optimalRadius: 0 };
+
+  let minMaxRadius = Infinity;
+  let bestCenters: PointContext[] = [];
+
+  const currentComb: PointContext[] = [];
+  
+  // Fast backtracking generating index combinations directly
+  const backtrack = (startIndex: number) => {
+    if (currentComb.length === k) {
+      const radius = computeCoverageRadius(points, currentComb);
+      if (radius < minMaxRadius) {
+        minMaxRadius = radius;
+        // save copy of combination
+        bestCenters = [...currentComb];
+      }
+      return;
+    }
+    
+    for (let i = startIndex; i < points.length; i++) {
+        // Prune if not enough elements remain to complete 'k' size
+        if (currentComb.length + (points.length - i) < k) break;
+        currentComb.push(points[i]);
+        backtrack(i + 1);
+        currentComb.pop();
+    }
+  };
+  
+  backtrack(0);
+
+  return { optimalCenters: bestCenters, optimalRadius: minMaxRadius };
+}
