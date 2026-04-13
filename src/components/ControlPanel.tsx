@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import type { Mode } from '../hooks/useKCenterSimulator'
-import { Play, Pause, SkipForward, SkipBack, RotateCcw, MousePointer2, Sparkles, Hash, Crosshair, HelpCircle, Eye, EyeOff, Calculator, Loader2 } from 'lucide-react'
+import { Play, Pause, SkipForward, SkipBack, RotateCcw, MousePointer2, Sparkles, Hash, Crosshair, Eye, EyeOff, Calculator, Loader2 } from 'lucide-react'
 import { clsx } from 'clsx'
 
 interface ControlPanelProps {
@@ -41,11 +41,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isAuto = mode === 'auto'
   const [randomCount, setRandomCount] = useState<number>(15)
 
-  const getStatusMessage = () => {
-    if (pointsCount === 0) return "Add points to begin"
-    if (centersCount < k) return isAuto ? (isPlaying ? "Finding farthest point..." : "Paused algorithm.") : "Select center"
-    return `Max ${k} reached.`
-  }
+  // const getStatusMessage = () => {
+  //   if (pointsCount === 0) return "Add points to begin"
+  //   if (centersCount < k) return isAuto ? (isPlaying ? "Finding farthest point..." : "Paused algorithm.") : "Select center"
+  //   return `Max ${k} reached.`
+  // }
 
   return (
     <div className="flex flex-col bg-surface p-4 border border-white/5 rounded-xl space-y-5 text-sm text-text h-full shadow-lg overflow-y-auto custom-scrollbar">

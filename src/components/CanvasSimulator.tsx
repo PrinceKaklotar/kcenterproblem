@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react'
+import React, { useRef, useMemo, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { distanceToNearestCenter } from '../utils/mathUtils'
 import type { PointContext } from '../utils/mathUtils'
@@ -358,10 +358,10 @@ export const CanvasSimulator: React.FC<CanvasSimulatorProps> = ({
                   e.stopPropagation() 
                   const target = e.currentTarget
                   target.setPointerCapture(e.pointerId)
-                  let nodeHasMoved = false
+                 // let nodeHasMoved = false
                   
                   const onPointerMove = (evt: PointerEvent) => {
-                      nodeHasMoved = true
+                 //    nodeHasMoved = true
                       const { x: svgX, y: svgY } = getSVGCoordinates(evt.clientX, evt.clientY)
                       movePoint(point.id, svgX, svgY)
                   }
